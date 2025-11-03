@@ -1,32 +1,32 @@
-    #IMport The Librarys
-    import pandas as pd
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import seaborn as sns
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.preprocessing import StandardScaler
-    from sklearn.model_selection import train_test_split
-    from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
+#Import The Librarys
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
+import pickle
 
 #Import the Dataset
 
-df = pd.read_csv("diabetes.csv")
+df = pd.read_csv("Data set/diabetes.csv")
 print("\nDataset Values.\n")
 df.head()
 
 #Find the Shape of the Dataset
-print(f"Total Columns of the Data set is {df.shape[1]} and the Rows is {df.shape[0]}")
+print(f"Total Columns of the Data set is {df.shape[1]} and the Rows is {df.shape[0]}...............\n")
 
 #Describe the Dataset
-print("\nLest see the Describe Values of the Datasets\n")
-df.describe()
+print("Lest see the Describe Values of the Datasets..........\n")
+df.describe(include='all')
 
 #Check the Datatpes of the Dataset columns
-print("\nLets see all the columns Data types\n")
+print("Lets see all the columns Data types...................\n")
 df.dtypes
-
 #Check any null values present or not.
-print("\nLets see the Null values of this datasets\n")
+print("Lets see the Null values of this datasets...................\n")
 df.isnull().sum()
 
 #Give the Input Data and Output Dta
@@ -61,9 +61,8 @@ sns.heatmap(confusion_matrix(y_test,y_predict),annot=True,fmt="d",cmap="Blues")
 plt.xlabel("Predictino")
 plt.ylabel("Actual")
 plt.title("Confusion Matrix")
-plt.savefig("Confusion_matrix.png",dpi=500,bbox_inches='tight')
+plt.savefig("Diagram Images/Confusion_matrix.png",dpi=500,bbox_inches='tight')
 plt.show()
-
 
 #Distribution plots for each feature
 
@@ -73,7 +72,7 @@ for i,column in enumerate(x.columns,1):
     sns.histplot(df[column],kde=True,color='green',edgecolor='black')
     plt.title(f"Distribution of {column}",fontsize=12)
 plt.tight_layout()
-plt.savefig("Distribution_plots_for_each_feature.png",dpi=500,bbox_inches='tight')
+plt.savefig("Diagram Images/Distribution_plots_for_each_feature.png",dpi=500,bbox_inches='tight')
 plt.show()
 
 #Correlation Heatmap of Diabetes Dataset
@@ -81,7 +80,7 @@ plt.show()
 plt.figure(figsize=(10, 8))
 sns.heatmap(df.corr(), annot=True, cmap="coolwarm", fmt=".2f")
 plt.title("Correlation Heatmap of Diabetes Dataset", fontsize=15)
-plt.savefig("Correlation_Heatmap_of_Diabetes_Dataset.png",dpi=500,bbox_inches='tight')
+plt.savefig("Diagram Images/Correlation_Heatmap_of_Diabetes_Dataset.png",dpi=500,bbox_inches='tight')
 plt.show()
 
 #Count of Diabetic vs Non-Diabetic Patients
@@ -91,7 +90,7 @@ sns.countplot(x="Outcome", data=df, palette="pastel")
 plt.title("Count of Diabetic vs Non-Diabetic Patients", fontsize=14)
 plt.xlabel("Outcome (0 = No Diabetes, 1 = Diabetes)")
 plt.ylabel("Count")
-plt.savefig("Count_of_Diabetic_vs_Non-Diabetic_Patients.png",dpi=500,bbox_inches='tight')
+plt.savefig("Diagram Images/Count_of_Diabetic_vs_Non-Diabetic_Patients.png",dpi=500,bbox_inches='tight')
 plt.show()
 
 #Glucose Levels by Diabetes Outcome
@@ -101,9 +100,8 @@ sns.boxplot(x="Outcome", y="Glucose", data=df, palette="Set2")
 plt.title("Glucose Levels by Diabetes Outcome", fontsize=14)
 plt.xlabel("Outcome")
 plt.ylabel("Glucose Level")
-plt.savefig("Glucose_Levels_by_Diabetes_Outcome.png",dpi=500,bbox_inches='tight')
+plt.savefig("Diagram Images/Glucose_Levels_by_Diabetes_Outcome.png",dpi=500,bbox_inches='tight')
 plt.show()
-
 
 
 print("\n Enter Your Helth Data:\n")
@@ -124,3 +122,14 @@ if output == 1:
 else:
     print("You don't have Diabetes.")
 
+#Make a Pickle model.
+
+print("Lets make a Pickle Model..............\n")
+
+models = {
+    "Standard_Scaler":std,
+    "Logistic_Regression":model
+}
+
+with open("Model/model.pkl",'wb') as f:
+    pickle.dump(models,f)
